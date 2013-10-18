@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAXWORD 100
+#define NKEYS (sizeof(keytab) / sizeof(keytab[0]))
 
 int getword(char *, int);
 int binsearch(char *, struct key *, int);
@@ -41,7 +42,7 @@ struct key
    "typedef", 0,
    "union", 0,
    "unsigned", 0,
-   "void", 0
+   "void", 0,
    "volatile", 0,
    "while", 0
 };
@@ -50,7 +51,7 @@ int main(void)
 {
    int n;
    char word[MAXWORD];
-   
+
    while(getword(word, MAXWORD) != EOF)
         if(isalpha(word[0]))
 		   if((n = binsearch(word, keytab, NKEYS)) >= 0)
@@ -62,15 +63,16 @@ int main(void)
    return 0;
 }
 
-int binsearch(char *word, struct key keytab[], int NKEYS)
+int binsearch(char *word, struct key keytab[], int n)
 {
    int cond;
    int low = 0;
-   int high = NKEYS - 1;
-   int mid = low + (high - low) / 2;
+   int high = n - 1;
+   int mid;
    while(high >= low)
    {
-      if((cond = strcmp(word, keytab[mid])) < 0)
+      mid = low + (high - low) / 2;
+      if((cond = strcmp(word, keytab[mid].word)) < 0)
 	     high = mid - 1;
       else if(cond > 0)
 	     low = mid + 1;
@@ -85,8 +87,8 @@ int getword(char *word, int lim)
     int c, getch(void);
 	void ungetch(int);
 	char *w = word;
-	
-	while(ispace(c = getch()))
+
+	while(isspace(c = getch()))
 	     ;
     if(c != EOF)
 	   *w++ = c;
@@ -101,7 +103,7 @@ int getword(char *word, int lim)
 	      ungetch(*w);
 		  break;
 	   }
-	*w = '\0';   
+	*w = '\0';
     return word[0];
 }
 
@@ -119,5 +121,5 @@ void ungetch(int c)
      if(bufp > BUFSIZE)
 	   printf("ungetch: too many characters");
 	 else
-	   buf[bufp++] = c; 
+	   buf[bufp++] = c;
 }
