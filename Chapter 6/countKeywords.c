@@ -6,7 +6,7 @@
 #define NKEYS (sizeof(keytab) / sizeof(keytab[0]))
 
 int getword(char *, int);
-int binsearch(char *, struct key *, int);
+//int binsearch(char *, struct key *, int);
 
 struct key
 {
@@ -63,7 +63,7 @@ int main(void)
    return 0;
 }
 
-int binsearch(char *word, struct key keytab[], int n)
+int binsearch(char *word, struct key *keytab, int n)
 {
    int cond;
    int low = 0;
