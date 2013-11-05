@@ -26,7 +26,7 @@ int main(void)
    while(getword(word, MAXWORD) != EOF)
         if(isalpha(word[0]))
 		   root = addtree(root, word);
-   treeprint(root);   
+   treeprint(root);  
    return 0;
 }
 
@@ -42,7 +42,7 @@ struct tnode *addtree(struct tnode *p, char *w)
 	  p->count = 1;
 	  p->left = NULL;
 	  p->right = NULL;
-   } else if(cond = strcmp(w, p->word) == 0)
+   } else if((cond = strcmp(w, p->word)) == 0)
       p->count++;
    else if(cond < 0)
 	  p->left = addtree(p->left, w);
@@ -57,7 +57,7 @@ void treeprint(struct tnode *p)
 	{
 	   treeprint(p->left);
 	   printf("%4d %s\n", p->count, p->word);
-	   treeprint(p->right);
+       treeprint(p->right);
 	}
 }
 
